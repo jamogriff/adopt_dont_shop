@@ -37,7 +37,7 @@ RSpec.describe 'application creation' do
         fill_in 'state', with: 'Ohio'
         fill_in 'zip', with: '40221'
         fill_in 'description', with: 'I am a living human being. Please provide a live animal at my residence.'
-        click_button 'Submit Application'
+        click_button 'Start Application'
         new_app_id = Application.last.id
         expect(page).to have_current_path("/applications/#{new_app_id}")
         expect(page).to have_content "In Progress"
