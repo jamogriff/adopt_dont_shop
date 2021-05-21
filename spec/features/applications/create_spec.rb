@@ -12,7 +12,6 @@ RSpec.describe 'application creation' do
       expect(find('form')).to have_content('City')
       expect(find('form')).to have_content('State')
       expect(find('form')).to have_content('Zip code')
-      expect(find('form')).to have_content('Description')
     end
   end
 
@@ -36,7 +35,6 @@ RSpec.describe 'application creation' do
         fill_in 'city', with: 'Dayton'
         fill_in 'state', with: 'Ohio'
         fill_in 'zip', with: '40221'
-        fill_in 'description', with: 'I am a living human being. Please provide a live animal at my residence.'
         click_button 'Start Application'
         new_app_id = Application.last.id
         expect(page).to have_current_path("/applications/#{new_app_id}")
