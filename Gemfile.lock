@@ -80,8 +80,6 @@ GEM
       activesupport (>= 5.0.0)
     launchy (2.5.0)
       addressable (~> 2.7)
-    libv8-node (15.14.0.1)
-    libv8-node (15.14.0.1-x86_64-linux)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -95,15 +93,11 @@ GEM
     method_source (1.0.0)
     mini_mime (1.1.0)
     mini_portile2 (2.5.1)
-    mini_racer (0.4.0)
-      libv8-node (~> 15.14.0.0)
     minitest (5.14.4)
     msgpack (1.4.2)
     nio4r (2.5.7)
     nokogiri (1.11.5)
       mini_portile2 (~> 2.5.0)
-      racc (~> 1.4)
-    nokogiri (1.11.5-x86_64-linux)
       racc (~> 1.4)
     orderly (0.1.1)
       capybara (>= 1.1)
@@ -222,7 +216,6 @@ GEM
 
 PLATFORMS
   ruby
-  x86_64-linux
 
 DEPENDENCIES
   bootsnap (>= 1.1.0)
@@ -231,7 +224,6 @@ DEPENDENCIES
   jbuilder (~> 2.5)
   launchy
   listen (>= 3.0.5, < 3.2)
-  mini_racer
   orderly
   pg (>= 0.18, < 2.0)
   pry
