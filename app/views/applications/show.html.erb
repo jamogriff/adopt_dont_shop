@@ -1,0 +1,44 @@
+<h2>Application #<%= @application.id %></h2>
+
+<table>
+  <tr>
+    <th>Field</th>
+    <th>Information</th>
+  </tr>
+  <tr>
+    <td><strong>Name:</strong></td>
+    <td><%= @application.name %></td>
+  </tr>
+  <tr>
+    <td><strong>Address:</strong></td>
+    <td><%= @application.address %></td>
+  </tr>
+  <tr>
+    <td><strong>City:</strong></td>
+    <td><%= @application.city %></td>
+  </tr>
+  <tr>
+    <td><strong>State:</strong></td>
+    <td><%= @application.state %></td>
+  </tr>
+  <tr>
+    <td><strong>Zip Code:</strong></td>
+    <td><%= @application.zip %></td>
+  </tr>
+  <tr>
+    <td><strong>Description:</strong></td>
+    <td><%= @application.description %></td>
+  </tr>
+  <tr>
+    <td><strong>Dog(s) Applied For:</strong></td>
+    <td>
+      <% @application.pets.each do |pet| %>
+        <%= link_to pet.name, "/pets/#{pet.id}" %><br>
+      <% end %>
+    </td>
+  </tr>
+  <tr>
+    <td><strong>Application Status:</strong></td>
+    <td><%= @application.status %></td>
+  </tr>
+ </table>
