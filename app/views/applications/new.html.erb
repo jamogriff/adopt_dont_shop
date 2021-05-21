@@ -1,0 +1,19 @@
+<h2>New Application</h2>
+<p>We are so excited you are interested in providing a forever home for a pet in need. Please fill out the following information to submit an application</p>
+
+<%= form_with url: "/applications", method: :post, local: true do |form| %>
+  <%= form.label :name %>
+  <%= form.text_field :name %><br>
+  <%= form.label :address %>
+  <%= form.text_field :address %><br>
+  <%= form.label :city %>
+  <%= form.text_field :city %><br>
+  <%= form.label :state %>
+  <%= form.text_field :state %><br>
+  <%= form.label :zip_code %>
+  <%= form.text_field :zip %><br>
+  <%= form.label :description %>
+  <%= form.text_area :description %><br>
+  <%= form.hidden_field :status, value: "In Progress" %>
+  <%= form.submit 'Submit Application' %>
+<% end %>

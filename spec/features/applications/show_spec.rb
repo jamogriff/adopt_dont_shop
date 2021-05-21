@@ -16,7 +16,7 @@ RSpec.describe 'application info page' do
   end
 
   it 'should display correct applicant info' do
-    #[ ] done
+    #[x] done
 
     #Application Show Page
 
