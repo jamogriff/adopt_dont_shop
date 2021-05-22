@@ -142,7 +142,7 @@ RSpec.describe 'application info page' do
   end
 
   it 'searching returns case-insensitive matches' do
-    #[ ] done
+    #[x] done
 
     #Case Insensitive Matches for Pet Names
 
