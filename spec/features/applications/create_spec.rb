@@ -42,14 +42,14 @@ RSpec.describe 'application creation' do
       end
     end
 
-    #context 'given invalid data' do
-      #it 're-renders the new form' do
-        #visit "/shelters/#{@shelter.id}/pets/new"
+    context 'given incomplete data' do
+      it 'renders the new form' do
+        visit "/applications/new"
 
-        #click_button 'Save'
-        #expect(page).to have_current_path("/shelters/#{@shelter.id}/pets/new")
-        #expect(page).to have_content("Error: Name can't be blank, Age can't be blank, Age is not a number")
-      #end
-    #end
+        click_button 'Start Application'
+        expect(page).to have_current_path("/applications/new")
+        expect(page).to have_content("Error: Name can't be blank, Address can't be blank, City can't be blank, State can't be blank, Zip can't be blank")
+      end
+    end
   end
 end
