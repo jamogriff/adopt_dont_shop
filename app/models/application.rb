@@ -11,4 +11,8 @@ class Application < ApplicationRecord
     self.pets.count >= 1
   end
 
+  def submitted
+    self.status == "Pending"
+  end
+
 end

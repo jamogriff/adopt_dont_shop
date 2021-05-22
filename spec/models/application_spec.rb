@@ -32,5 +32,14 @@ RSpec.describe Application do
       ApplicationPet.create!(application: @app, pet: @barnaby)
       expect(@app.is_ready).to eq true
     end
+
+    it 'flags when application has been submitted' do
+      ApplicationPet.create!(application: @app, pet: @sam)
+      ApplicationPet.create!(application: @app, pet: @barnaby)
+      expect(@app.submitted).to eq false
+      @app.update(status: "Pending")
+      expect(@app.submitted).to eq true
+    end
+
   end
 end
