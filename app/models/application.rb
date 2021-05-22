@@ -6,4 +6,9 @@ class Application < ApplicationRecord
   validates :zip, presence: true
   has_many :application_pets, dependent: :destroy
   has_many :pets, through: :application_pets
+
+  def is_ready
+    self.pets.count >= 1
+  end
+
 end
