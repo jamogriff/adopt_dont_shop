@@ -27,6 +27,13 @@ class ApplicationsController < ApplicationController
     end
   end
 
+  def update
+    # Probably should add a check here to see if pet already exists
+    # in Application.pets
+    added_pet = ApplicationPet.create!(pet: Pet.find(params[:pet_id]), application: Application.find(params[:id]))
+    redirect_to "/applications/#{params[:id]}"
+  end
+
   private
 
   # will likely need to be tweaked for what forms needs to be required
