@@ -30,7 +30,13 @@ class ApplicationsController < ApplicationController
   def update
     # Probably should add a check here to see if pet already exists
     # in Application.pets
-    added_pet = ApplicationPet.create!(pet: Pet.find(params[:pet_id]), application: Application.find(params[:id]))
+    # Likewise, restructuring conditional to be more explicit WIP
+    app = Application.find(params[:id])
+    if params[:description].present?
+      app.update(description: params[:description], status: params[:status])
+    else
+      added_pet = ApplicationPet.create!(pet: Pet.find(params[:pet_id]), application: app)
+    end
     redirect_to "/applications/#{params[:id]}"
   end
 

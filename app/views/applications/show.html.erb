@@ -43,18 +43,51 @@
   </tr>
  </table>
 
- <section id="add-a-pet">
-   <h3>Add a Pet to this Application</h3>
-   <%= form_with url: "/applications/#{@application.id}", method: :get, local: true do |f| %>
-     <%= f.label :search %>
-     <%= f.text_field :search %>
-     <%= f.submit "Search" %>
-   <% end %>
+ <% if @application.is_ready && @application.submitted == false %>
+   <section id="submit-app">
+     <h4>Last Step!</h4>
+     <p>When you're done selecting pets, please describe why you would make a great pet owner below:</p>
+     <%= form_with url: "/applications/#{@application.id}", method: :patch, local: true do |f| %>
+       <%= f.text_area :description %>
+       <%= f.hidden_field :status, value: "Pending" %>
+       <%= f.submit "Submit Application" %>
+     <% end %>
+   </section>
+   <!-- Opportunity to use a partial here -->
+   <section id="add-a-pet">
+     <h3>Add another Pet to this Application</h3>
+     <%= form_with url: "/applications/#{@application.id}", method: :get, local: true do |f| %>
+       <%= f.label :search %>
+       <%= f.text_field :search %>
+       <%= f.submit "Search" %>
+     <% end %>
 
-   <% @pets.each do |pet| %>
-     <strong><%= pet.name %></strong><br>
-     <!--Note that button takes 3 paramaters: name, options and  html options. The hash is used
-       to delineate the difference between options and html options -->
-       <%= button_to "Add Pet", "/applications/#{@application.id}?pet_id=#{pet.id}", method: :patch, id: "add-#{pet.id}" %>
-   <% end %>
- </section>
+     <% @pets.each do |pet| %>
+       <strong><%= pet.name %></strong><br>
+       <!--Note that button takes 3 paramaters: name, options and  html options. The hash is used
+         to delineate the difference between options and html options -->
+         <%= button_to "Add Pet", "/applications/#{@application.id}?pet_id=#{pet.id}", method: :patch, id: "add-#{pet.id}" %>
+     <% end %>
+   </section>
+ <% elsif @application.submitted %>
+   <section id="complete">
+     <h2>Thanks for Submitting your Application!</h2>
+     <p>We'll be in contact within 3 business days with your outcome!</p>
+   </section>
+ <% else %>
+   <section id="add-a-pet">
+     <h3>Add a Pet to this Application</h3>
+     <%= form_with url: "/applications/#{@application.id}", method: :get, local: true do |f| %>
+       <%= f.label :search %>
+       <%= f.text_field :search %>
+       <%= f.submit "Search" %>
+     <% end %>
+
+     <% @pets.each do |pet| %>
+       <strong><%= pet.name %></strong><br>
+       <!--Note that button takes 3 paramaters: name, options and  html options. The hash is used
+         to delineate the difference between options and html options -->
+         <%= button_to "Add Pet", "/applications/#{@application.id}?pet_id=#{pet.id}", method: :patch, id: "add-#{pet.id}" %>
+     <% end %>
+   </section>
+ <% end %>
