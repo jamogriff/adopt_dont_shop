@@ -15,4 +15,16 @@ RSpec.describe 'admin shelters index page' do
     expect(@shelter_3.name).to appear_before(@shelter_1.name)
   end
 
+  it 'has a section for pending applications' do
+    #For this story, you should fully leverage ActiveRecord methods in your query.
+
+    #Shelters with Pending Applications
+
+    #As a visitor
+    #When I visit the admin shelter index ('/admin/shelters')
+    #Then I see a section for "Shelter's with Pending Applications"
+    #And in this section I see the name of every shelter that has a pending application
+    visit '/admins/shelters'
+    
+  end
 end
