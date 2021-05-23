@@ -11,8 +11,8 @@ RSpec.describe 'admin shelters index page' do
 
   it 'displays correct order' do
     visit '/admins/shelters'
-    # check to see order etc
-    # still needs a route
+    expect(@shelter_2.name).to appear_before(@shelter_3.name)
+    expect(@shelter_3.name).to appear_before(@shelter_1.name)
   end
 
 end
