@@ -12,4 +12,13 @@ class Pet < ApplicationRecord
   def self.adoptable
     where(adoptable: true)
   end
+
+  def is_approved_on(app_id)
+    record = self.application_pets.where(application_id: app_id)
+    if record.first.status == "Approved"
+      true
+    else
+      false
+    end
+  end
 end

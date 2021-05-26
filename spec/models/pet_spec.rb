@@ -41,5 +41,16 @@ RSpec.describe Pet, type: :model do
         expect(@pet_3.shelter_name).to eq(@shelter_1.name)
       end
     end
+
+    describe '#is_approved' do
+      it 'returns correct boolean' do
+        app = Application.create!(name: "Kelsie G", address: "3421 Sleepy Rd", city: "Boulder", state: "CO", zip: "81302", status: "In Progress", description: "I love animals. ")
+        pet1_record = ApplicationPet.create!(application: app, pet: @pet_1, status: "Approved")
+        pet2_record = ApplicationPet.create!(application: app, pet: @pet_2, status: "Pending")
+
+        expect(@pet_1.is_approved_on(app.id)).to eq true
+        expect(@pet_2.is_approved_on(app.id)).to eq false
+      end
+    end
   end
 end
