@@ -19,8 +19,10 @@ RSpec.describe 'admin shelters index page' do
 
   it 'displays correct order' do
     visit '/admins/shelters'
-    expect(@shelter_2.name).to appear_before(@shelter_3.name)
-    expect(@shelter_3.name).to appear_before(@shelter_1.name)
+    within 'section#index' do
+      expect(@shelter_2.name).to appear_before(@shelter_3.name)
+      expect(@shelter_3.name).to appear_before(@shelter_1.name)
+    end
   end
 
   it 'has a section for pending applications' do
@@ -36,8 +38,8 @@ RSpec.describe 'admin shelters index page' do
     
     within 'section#pending' do
       expect(page).to have_content @shelter_3.name
-      expect(page).not_to have_content @shelter_3.name
-      expect(page).not_to have_content @shelter_3.name
+      expect(page).not_to have_content @shelter_2.name
+      expect(page).not_to have_content @shelter_1.name
     end
   end
 end
