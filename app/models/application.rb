@@ -29,11 +29,13 @@ class Application < ApplicationRecord
     end
   end
 
+  # Self is implied, which makes this cleaner but less explicit
   def approval_process
-    if self.approval_check
-      self.update(status: "Approved")
-    elsif self.review_complete && self.rejects_exist
-      self.update(status: "Rejected")
+    if approval_check
+      update(status: "Approved")
+      pets.each { |p| p.update!(adoptable: false) }
+    elsif review_complete && rejects_exist
+      update(status: "Rejected")
     end
   end
 

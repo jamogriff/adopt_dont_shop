@@ -84,17 +84,20 @@ RSpec.describe Application do
     end
 
     describe '#approval_process' do
-      it 'approves applications' do
+      it 'approves applications and sets pet adoptable attr' do
         ApplicationPet.create!(application: @app, pet: @sam, status: "Approved")
-        ApplicationPet.create!(application: @app, pet: @sam, status: "Approved")
+        ApplicationPet.create!(application: @app, pet: @barnaby, status: "Approved")
         expect(@app.status).not_to eq 'Approved'
-        @app.approval_process
+        expect(@sam.adoptable).to eq true
+        @app.approval_process # updates pet attr in database
         expect(@app.status).to eq 'Approved'
+        # Reload is used to query the database again for the updated value-- otherwise Rails just uses the original attributes when @sam was created.
+        expect(@sam.reload.adoptable).to eq false
       end
 
       it 'rejects applications' do
         ApplicationPet.create!(application: @app, pet: @sam, status: "Approved")
-        ApplicationPet.create!(application: @app, pet: @sam, status: "Rejected")
+        ApplicationPet.create!(application: @app, pet: @barnaby, status: "Rejected")
         expect(@app.status).to eq @app.status
         @app.approval_process
         expect(@app.status).to eq 'Rejected'
@@ -102,7 +105,7 @@ RSpec.describe Application do
       
       it 'does nothing until all apps have been reviewed' do
         ApplicationPet.create!(application: @app, pet: @sam, status: "Pending")
-        ApplicationPet.create!(application: @app, pet: @sam, status: "Rejected")
+        ApplicationPet.create!(application: @app, pet: @barnaby, status: "Rejected")
         expect(@app.status).to eq @app.status
         @app.approval_process
         expect(@app.status).to eq @app.status
