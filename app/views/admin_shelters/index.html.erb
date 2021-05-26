@@ -1,0 +1,14 @@
+
+<section id="pending">
+  <h3>Attention! These Shelters have Pet Applications that need Reviewed:</h3>  
+  <%= @shelters_with_apps.each do |s| %>
+    <%= s.name %>
+  <% end %>
+</section>
+
+<section id="index">
+  <strong>All Shelters in Our Network</strong>
+  <%= @shelters.each do |s| %>
+    <%= s.name %>
+  <% end %>
+</section>

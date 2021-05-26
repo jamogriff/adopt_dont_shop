@@ -5,11 +5,11 @@ RSpec.describe 'application info page' do
   before :all do
     Pet.destroy_all
     Application.destroy_all
-    foothills = Shelter.create!(name: "Foothills Animal Shelter", city: "Golden", rank: 5, foster_program: true)
+    @foothills = Shelter.create!(name: "Foothills Animal Shelter", city: "Golden", rank: 5, foster_program: true)
     @app1 = Application.create!(name: "Kelsie G", address: "3421 Sleepy Rd", city: "Boulder", state: "CO", zip: "81302", status: "In Progress", description: "I love animals. I enjoy watching shows on Saturday that all involve adopting dogs. I also enjoy watching clips on YouTube about adoption stories. I feel like I would be a terrific pet-owner and give a poor dog a forever home.")
-    @barnaby = foothills.pets.create!(name: "Barnaby", breed: "Cattle Dog", age: 1, adoptable: true)
-    @sam = foothills.pets.create!(name: "Sam", breed: "Labrador", age: 9, adoptable: true)
-    @hodor = foothills.pets.create!(name: "Hodor", breed: "Siamese", age: 4, adoptable: false)
+    @barnaby = @foothills.pets.create!(name: "Barnaby", breed: "Cattle Dog", age: 1, adoptable: true)
+    @sam = @foothills.pets.create!(name: "Sam", breed: "Labrador", age: 9, adoptable: true)
+    @hodor = @foothills.pets.create!(name: "Hodor", breed: "Siamese", age: 4, adoptable: false)
   end
 
   it 'should display correct applicant info' do
@@ -117,4 +117,51 @@ RSpec.describe 'application info page' do
     expect(page).to have_content @barnaby.name
     expect(page).not_to have_content("Add a Pet to this Application") 
   end
+
+  it 'searching returns partial matches' do
+    #[x] done
+
+    #Partial Matches for Pet Names
+
+    #As a visitor
+    #When I visit an application show page
+    #And I search for Pets by name
+    #Then I see any pet whose name PARTIALLY matches my search
+    #For example, if I search for "fluff", my search would match pets with names "fluffy", "fluff", and "mr. fluff"
+    fluffy = @foothills.pets.create!(name: "fluffy", breed: "x", age: 0, adoptable: true)
+    fluff = @foothills.pets.create!(name: "fluff", breed: "x", age: 0, adoptable: true)
+    mr = @foothills.pets.create!(name: "mr. fluff", breed: "x", age: 0, adoptable: true)
+    visit "/applications/#{@app1.id}"
+    fill_in 'search', with: "fluff"
+    click_button "Search"
+    within "section#add-a-pet" do
+      expect(page).to have_content fluffy.name
+      expect(page).to have_content fluff.name
+      expect(page).to have_content mr.name
+    end
+  end
+
+  it 'searching returns case-insensitive matches' do
+    #[x] done
+
+    #Case Insensitive Matches for Pet Names
+
+    #As a visitor
+    #When I visit an application show page
+    #And I search for Pets by name
+    #Then my search is case insensitive
+    #For example, if I search for "fluff", my search would match pets with names "Fluffy", "FLUFF", and "Mr. FlUfF"
+    fluffy = @foothills.pets.create!(name: "Fluffy", breed: "x", age: 0, adoptable: true)
+    fluff = @foothills.pets.create!(name: "FLUFF", breed: "x", age: 0, adoptable: true)
+    mr = @foothills.pets.create!(name: "Mr. FlUfF", breed: "x", age: 0, adoptable: true)
+    visit "/applications/#{@app1.id}"
+    fill_in 'search', with: "fluff"
+    click_button "Search"
+    within "section#add-a-pet" do
+      expect(page).to have_content fluffy.name
+      expect(page).to have_content fluff.name
+      expect(page).to have_content mr.name
+    end
+  end
+
 end  
