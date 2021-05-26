@@ -11,6 +11,9 @@
         <p>✓</p>
       <% elsif p.is_rejected_on(@app.id) %>
         <p>✘</p>
+      <% elsif p.adoptable == false %>
+        <p>This pet has been adopted!</p>
+        <%= button_to "Reject", "/admins/applications/#{@app.id}?pet_id=#{p.id}&operation=reject", method: :patch, id: "reject-#{p.id}" %>
       <% else %>
         <%= button_to "Approve", "/admins/applications/#{@app.id}?pet_id=#{p.id}&operation=approve", method: :patch, id: "approve-#{p.id}" %>
         <%= button_to "Reject", "/admins/applications/#{@app.id}?pet_id=#{p.id}&operation=reject", method: :patch, id: "reject-#{p.id}" %>

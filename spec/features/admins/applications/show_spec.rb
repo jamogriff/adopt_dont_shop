@@ -102,4 +102,31 @@ RSpec.describe 'admin view of applications' do
       expect(page).to have_content "Rejected"
     end
   end
+
+  it 'resolves conflicting application statuses when an application if approved' do
+    @app_2 = Application.create!(name: "Kelsie G", address: "3421 Sleepy Rd", city: "Boulder", state: "CO", zip: "81302", status: "Pending", description: "I love animals. ")
+    ApplicationPet.create!(application: @app, pet: @barnaby, status: "Pending")
+    ApplicationPet.create!(application: @app_2, pet: @barnaby, status: "Pending")
+    #[ ] done
+
+    #As a visitor
+    #When a pet has an "Approved" application on them
+    #And when the pet has a "Pending" application on them
+    #And I visit the admin application show page for the pending application
+    #Then next to the pet I do not see a button to approve them
+    #And instead I see a message that this pet has been approved for adoption
+    #And I do see a button to reject them
+    visit "/admins/applications/#{@app.id}"
+    click_button "approve-#{@barnaby.id}"
+    within "section#application-status" do
+      expect(page).to have_content "Approved"
+    end
+
+    visit "/admins/applications/#{@app_2.id}"
+    within "div#pet-#{@barnaby.id}" do
+      expect(page).not_to have_button "approve-#{@barnaby.id}"
+      expect(page).to have_content "This pet has been adopted!"
+      expect(page).to have_button "reject-#{@barnaby.id}"
+    end
+  end
 end
