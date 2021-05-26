@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Application do
 
-  before :all do
+  before :each do
       foothills = Shelter.create!(name: "Foothills Animal Shelter", city: "Golden", rank: 5, foster_program: true)
       @app = Application.create!(name: "Kelsie G", address: "3421 Sleepy Rd", city: "Boulder", state: "CO", zip: "81302", status: "In Progress", description: "I love animals. I enjoy watching shows on Saturday that all involve adopting dogs. I also enjoy watching clips on YouTube about adoption stories. I feel like I would be a terrific pet-owner and give a poor dog a forever home.")
       @barnaby = foothills.pets.create!(name: "Barnaby", breed: "Cattle Dog", age: 1, adoptable: true)
@@ -41,5 +41,18 @@ RSpec.describe Application do
       expect(@app.submitted).to eq true
     end
 
+    describe '#approval_check' do
+      it 'returns false when not all pet applications are approved' do
+        ApplicationPet.create!(application: @app, pet: @sam, status: "Approved")
+        ApplicationPet.create!(application: @app, pet: @barnaby, status: "Pending")
+        expect(@app.approval_check).to eq false
+      end
+
+      it 'returns true when all pet applications are approved' do
+        ApplicationPet.create!(application: @app, pet: @sam, status: "Approved")
+        ApplicationPet.create!(application: @app, pet: @barnaby, status: "Approved")
+        expect(@app.approval_check).to eq true
+      end
+    end
   end
 end

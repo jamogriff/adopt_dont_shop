@@ -15,4 +15,8 @@ class Application < ApplicationRecord
     self.status == "Pending"
   end
 
+  def approval_check
+    self.application_pets.all? { |p| p.status == "Approved" }
+  end
+
 end
