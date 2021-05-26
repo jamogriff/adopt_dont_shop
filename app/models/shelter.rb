@@ -35,4 +35,10 @@ class Shelter < ApplicationRecord
   def shelter_pets_filtered_by_age(age_filter)
     adoptable_pets.where('age >= ?', age_filter)
   end
+
+  # This method took about an hour to figure out
+  def self.has_pending_applications
+    joins(pets: [:applications]).where("applications.status = 'Pending'")
+  end
+
 end
