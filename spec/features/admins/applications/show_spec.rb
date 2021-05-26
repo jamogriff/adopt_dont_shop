@@ -55,10 +55,30 @@ RSpec.describe 'admin view of applications' do
     click_button "reject-#{@barnaby.id}"
     # Page then reloads
     expect(page).not_to have_button "reject-#{@barnaby.id}"
-    expect(page).not_to have_button "accept-#{@barnaby.id}"
+    expect(page).not_to have_button "approve-#{@barnaby.id}"
     within "div#pet-#{@barnaby.id}" do
       expect(page).to have_content "✘"
       expect(page).not_to have_content "✓"
+    end
+  end
+
+  it 'takes away admin operations when all pets are approved' do
+    ApplicationPet.create!(application: @app, pet: @barnaby, status: @app.status)
+    ApplicationPet.create!(application: @app, pet: @sam, status: @app.status)
+    #[ ] done
+
+    #All Pets Accepted on an Application
+
+    #As a visitor
+    #When I visit an admin application show page
+    #And I approve all pets for an application
+    #Then I am taken back to the admin application show page
+    #And I see the application's status has changed to "Approved"
+    visit "/admins/applications/#{@app.id}"
+    click_button "approve-#{@barnaby.id}"
+    click_button "approve-#{@sam.id}"
+    within "section#application-status" do
+      expect(page).to have_content "Approved"
     end
   end
 end

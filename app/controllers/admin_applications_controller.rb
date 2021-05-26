@@ -15,6 +15,8 @@ class AdminApplicationsController < ApplicationController
       # Note that due to current AR associations, this update
       # doesn't get passed on to applications
       pet_app.update(status: "Approved")
+      # Checks all pet statuses, if all approved, then updates status on application
+      @app.approval_process
     elsif params[:operation] == "reject"
       pet_app.update(status: "Rejected")
     end

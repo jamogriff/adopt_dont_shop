@@ -19,4 +19,12 @@ class Application < ApplicationRecord
     self.application_pets.all? { |p| p.status == "Approved" }
   end
 
+  def approval_process
+    if self.approval_check
+      self.update(status: "Approved")
+    else
+      nil # is this necessary?
+    end
+  end
+
 end

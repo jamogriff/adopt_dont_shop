@@ -1,5 +1,8 @@
 <h2>Approve Applications</h2>
 
+<section id="application-status">
+  <strong>Application Status: </strong><%= @app.status %>
+</section>
 <section>
   <%= @app.pets.each do |p| %>
     <div id='pet-<%= p.id %>'>

@@ -54,5 +54,14 @@ RSpec.describe Application do
         expect(@app.approval_check).to eq true
       end
     end
+
+    describe '#approval_process' do
+      it 'approves applications' do
+        ApplicationPet.create!(application: @app, pet: @sam, status: "Approved")
+        expect(@app.status).not_to eq 'Approved'
+        @app.approval_process
+        expect(@app.status).to eq 'Approved'
+      end
+    end
   end
 end
