@@ -4,10 +4,10 @@
   <%= @app.pets.each do |p| %>
     <div id='pet-<%= p.id %>'>
       <strong><%= p.name %></strong>
-      <%= button_to "Approve Adoption", "/admins/applications/#{@app.id}?pet_id=#{p.id}", method: :patch, id: "approve-#{p.id}" %>
-      <%#<% if p.name = "blah" #is_approved %>%>
-        <%#<p>✓</p>%>
-      <%#<% else %>%>
-      <%#<% end %>%>
+      <% if p.is_approved_on(@app.id) %>
+        <p>✓</p>
+      <% else %>
+        <%= button_to "Approve Adoption", "/admins/applications/#{@app.id}?pet_id=#{p.id}", method: :patch, id: "approve-#{p.id}" %>
+      <% end %>
     <% end %>
 </section>

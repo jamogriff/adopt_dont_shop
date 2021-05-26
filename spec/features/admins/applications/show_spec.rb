@@ -14,7 +14,7 @@ RSpec.describe 'admin view of applications' do
 
   it 'can approve a pet for adoption' do
     ApplicationPet.create!(application: @app1, pet: @barnaby, status: @app1.status)
-    yes = ApplicationPet.create!(application: @app1, pet: @sam, status: @app1.status)
+    ApplicationPet.create!(application: @app1, pet: @sam, status: @app1.status)
     #[ ] done
 
     #Approving a Pet for Adoption
