@@ -4,16 +4,20 @@ class AdminApplicationsController < ApplicationController
     @app = Application.find(params[:id])
   end
 
-  def approve
+  # Method executes dependent on what :operation parameter is sent
+  def update
     @app = Application.find(params[:id])
     pet = Pet.find(params[:pet_id])
 
     # Find individual record of pet on application
     pet_app = ApplicationPet.where(application_id: @app.id, pet_id: pet.id)
-
-    # Note that due to current AR associations, this update
-    # doesn't get passed on to applications
-    pet_app.update(status: "Approved")
+    if params[:operation] == "approve"
+      # Note that due to current AR associations, this update
+      # doesn't get passed on to applications
+      pet_app.update(status: "Approved")
+    elsif params[:operation] == "reject"
+      pet_app.update(status: "Rejected")
+    end
     render :show
   end
 
