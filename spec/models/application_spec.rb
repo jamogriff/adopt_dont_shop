@@ -55,12 +55,57 @@ RSpec.describe Application do
       end
     end
 
+    describe '#rejects_exist' do
+      it 'returns true when any pet applications are rejected' do
+        ApplicationPet.create!(application: @app, pet: @sam, status: "Approved")
+        ApplicationPet.create!(application: @app, pet: @barnaby, status: "Rejected")
+        expect(@app.rejects_exist).to eq true
+      end
+
+      it 'returns false when no pet applications are rejected' do
+        ApplicationPet.create!(application: @app, pet: @sam, status: "Approved")
+        ApplicationPet.create!(application: @app, pet: @barnaby, status: "Approved")
+        expect(@app.rejects_exist).to eq false
+      end
+    end
+
+    describe '#review_complete' do
+      it 'returns true if all application records are accepted or rejected' do
+        ApplicationPet.create!(application: @app, pet: @sam, status: "Approved")
+        ApplicationPet.create!(application: @app, pet: @barnaby, status: "Rejected")
+        expect(@app.review_complete).to eq true
+      end
+
+      it 'returns false if not all applications have been reviewed' do
+        ApplicationPet.create!(application: @app, pet: @sam, status: "Approved")
+        ApplicationPet.create!(application: @app, pet: @barnaby, status: "Pending")
+        expect(@app.review_complete).to eq false
+      end
+    end
+
     describe '#approval_process' do
       it 'approves applications' do
+        ApplicationPet.create!(application: @app, pet: @sam, status: "Approved")
         ApplicationPet.create!(application: @app, pet: @sam, status: "Approved")
         expect(@app.status).not_to eq 'Approved'
         @app.approval_process
         expect(@app.status).to eq 'Approved'
+      end
+
+      it 'rejects applications' do
+        ApplicationPet.create!(application: @app, pet: @sam, status: "Approved")
+        ApplicationPet.create!(application: @app, pet: @sam, status: "Rejected")
+        expect(@app.status).to eq @app.status
+        @app.approval_process
+        expect(@app.status).to eq 'Rejected'
+      end
+      
+      it 'does nothing until all apps have been reviewed' do
+        ApplicationPet.create!(application: @app, pet: @sam, status: "Pending")
+        ApplicationPet.create!(application: @app, pet: @sam, status: "Rejected")
+        expect(@app.status).to eq @app.status
+        @app.approval_process
+        expect(@app.status).to eq @app.status
       end
     end
   end

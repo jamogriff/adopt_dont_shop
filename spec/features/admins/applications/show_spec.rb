@@ -81,4 +81,25 @@ RSpec.describe 'admin view of applications' do
       expect(page).to have_content "Approved"
     end
   end
+
+  it 'resolves application status when not all pets are approved' do
+    ApplicationPet.create!(application: @app, pet: @barnaby, status: @app.status)
+    ApplicationPet.create!(application: @app, pet: @sam, status: @app.status)
+    #[ ] done
+
+    #One or More Pets Rejected on an Application
+
+    #As a visitor
+    #When I visit an admin application show page
+    #And I reject one or more pets for the application
+    #And I approve all other pets on the application
+    #Then I am taken back to the admin application show page
+    #And I see the application's status has changed to "Rejected"
+    visit "/admins/applications/#{@app.id}"
+    click_button "approve-#{@barnaby.id}"
+    click_button "reject-#{@sam.id}"
+    within "section#application-status" do
+      expect(page).to have_content "Rejected"
+    end
+  end
 end

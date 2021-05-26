@@ -19,11 +19,21 @@ class Application < ApplicationRecord
     self.application_pets.all? { |p| p.status == "Approved" }
   end
 
+  def rejects_exist
+    self.application_pets.any? { |p| p.status == "Rejected" }
+  end
+
+  def review_complete
+    self.application_pets.all? do |p|
+      p.status == "Approved" || p.status == "Rejected"
+    end
+  end
+
   def approval_process
     if self.approval_check
       self.update(status: "Approved")
-    else
-      nil # is this necessary?
+    elsif self.review_complete && self.rejects_exist
+      self.update(status: "Rejected")
     end
   end
 
