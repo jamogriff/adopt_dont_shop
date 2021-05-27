@@ -41,4 +41,16 @@ class Shelter < ApplicationRecord
     joins(pets: [:applications]).where("applications.status = 'Pending'")
   end
 
+  def adoptable_avg_age
+    adoptable_pets.average(:age)
+  end
+
+  def adoptable_count
+    adoptable_pets.count
+  end
+
+  def number_adopted
+    pets.count - adoptable_pets.count
+  end
+
 end

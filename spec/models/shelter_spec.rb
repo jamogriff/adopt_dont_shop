@@ -88,5 +88,21 @@ RSpec.describe Shelter, type: :model do
         expect(Shelter.has_pending_applications).to eq([@shelter_3])
       end
     end
+
+    describe 'statistical methods' do
+      it 'returns average age of adoptable pets' do
+        exp_val = 8 / 2.to_f
+        expect(@shelter_1.adoptable_avg_age).to eq exp_val
+      end
+
+      it 'returns count of adoptable pets' do 
+        expect(@shelter_1.adoptable_count).to eq 2
+      end
+
+      it 'returns count of adopted pets' do 
+        expect(@shelter_1.number_adopted).to eq 1
+      end
+
+    end
   end
 end
