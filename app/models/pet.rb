@@ -21,4 +21,13 @@ class Pet < ApplicationRecord
       false
     end
   end
+
+  def is_rejected_on(app_id)
+    record = self.application_pets.where(application_id: app_id)
+    if record.first.status == "Rejected"
+      true
+    else
+      false
+    end
+  end
 end

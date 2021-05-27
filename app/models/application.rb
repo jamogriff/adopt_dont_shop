@@ -15,4 +15,28 @@ class Application < ApplicationRecord
     self.status == "Pending"
   end
 
+  def approval_check
+    self.application_pets.all? { |p| p.status == "Approved" }
+  end
+
+  def rejects_exist
+    self.application_pets.any? { |p| p.status == "Rejected" }
+  end
+
+  def review_complete
+    self.application_pets.all? do |p|
+      p.status == "Approved" || p.status == "Rejected"
+    end
+  end
+
+  # Self is implied, which makes this cleaner but less explicit
+  def approval_process
+    if approval_check
+      update(status: "Approved")
+      pets.each { |p| p.update!(adoptable: false) }
+    elsif review_complete && rejects_exist
+      update(status: "Rejected")
+    end
+  end
+
 end
