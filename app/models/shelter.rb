@@ -36,6 +36,11 @@ class Shelter < ApplicationRecord
     adoptable_pets.where('age >= ?', age_filter)
   end
 
+  # This user story wanted the full address of the shelter, but that would require another migration
+  def self.info_on(shelter_id)
+    find_by_sql("SELECT name, city FROM shelters WHERE id = #{shelter_id}").first
+  end
+
   # This method took about an hour to figure out
   def self.has_pending_applications
     joins(pets: [:applications]).where("applications.status = 'Pending'")

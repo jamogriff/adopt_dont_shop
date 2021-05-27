@@ -76,6 +76,13 @@ RSpec.describe Shelter, type: :model do
       end
     end
 
+    describe '::info' do
+      it 'returns name and address only' do
+        expect(Shelter.info_on(@shelter_1.id).name).to eq @shelter_1.name
+        expect(Shelter.info_on(@shelter_1.id).city).to eq @shelter_1.city
+      end
+    end
+
     describe '#has_pending_applications' do
       it 'returns shelters' do
         app_1 = Application.create!(name: "Kelsie G", address: "3421 Sleepy Rd", city: "Boulder", state: "CO", zip: "81302", status: "Pending", description: "I love animals.")

@@ -7,5 +7,6 @@ class AdminSheltersController < ApplicationController
 
   def show
     @shelter = Shelter.find(params[:id])
+    @details = Shelter.info_on(@shelter.id) # Not really sure why this was requested other than to practice SQL
   end
 end
