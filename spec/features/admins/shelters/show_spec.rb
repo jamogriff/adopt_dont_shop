@@ -31,7 +31,6 @@ RSpec.describe 'admin view of single shelter' do
 
     it 'has links to each pets applications' do
       visit "/admins/shelters/#{@shelter.id}"
-      save_and_open_page
       within "div#pet-#{@pet_2.id}" do
         click_link "#{@app_2.name} from #{@app_2.city}"
         expect(current_path).to eq "/admins/applications/#{@app_2.id}"
