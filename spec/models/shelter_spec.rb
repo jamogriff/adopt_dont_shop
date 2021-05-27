@@ -17,7 +17,6 @@ RSpec.describe Shelter, type: :model do
     @shelter_1 = Shelter.create(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9)
     @shelter_2 = Shelter.create(name: 'RGV animal shelter', city: 'Harlingen, TX', foster_program: false, rank: 5)
     @shelter_3 = Shelter.create(name: 'Fancy pets of Colorado', city: 'Denver, CO', foster_program: true, rank: 10)
-
     @pet_1 = @shelter_1.pets.create(name: 'Mr. Pirate', breed: 'tuxedo shorthair', age: 5, adoptable: false)
     @pet_2 = @shelter_1.pets.create(name: 'Clawdia', breed: 'shorthair', age: 3, adoptable: true)
     @pet_3 = @shelter_3.pets.create(name: 'Lucille Bald', breed: 'sphynx', age: 8, adoptable: true)
@@ -77,6 +76,13 @@ RSpec.describe Shelter, type: :model do
       end
     end
 
+    describe '::info' do
+      it 'returns name and address only' do
+        expect(Shelter.info_on(@shelter_1.id).name).to eq @shelter_1.name
+        expect(Shelter.info_on(@shelter_1.id).city).to eq @shelter_1.city
+      end
+    end
+
     describe '#has_pending_applications' do
       it 'returns shelters' do
         app_1 = Application.create!(name: "Kelsie G", address: "3421 Sleepy Rd", city: "Boulder", state: "CO", zip: "81302", status: "Pending", description: "I love animals.")
@@ -86,6 +92,32 @@ RSpec.describe Shelter, type: :model do
         app_1.pets << @pet_3
 
         expect(Shelter.has_pending_applications).to eq([@shelter_3])
+      end
+    end
+
+    describe 'statistical methods' do
+      it 'returns average age of adoptable pets' do
+        exp_val = 8 / 2.to_f
+        expect(@shelter_1.adoptable_avg_age).to eq exp_val
+      end
+
+      it 'returns count of adoptable pets' do 
+        expect(@shelter_1.adoptable_count).to eq 2
+      end
+
+      it 'returns count of adopted pets' do 
+        expect(@shelter_1.number_adopted).to eq 1
+      end
+    end
+
+    describe 'methods for admin view of a shelter' do
+      it 'lists the pets not reviewed' do
+        @app_1 = Application.create!(name: "Kelsie G", address: "3421 Sleepy Rd", city: "Boulder", state: "CO", zip: "81302", status: "Pending", description: "I love animals.")
+        @app_2 = Application.create!(name: "Jamo G", address: "3421 Sleepy Rd", city: "Boulder", state: "CO", zip: "81302", status: "Pending", description: "I love animals.")
+        @app_record_1 = ApplicationPet.create!(application: @app_2, pet: @pet_2, status: "Pending")
+         @app_record_2 = ApplicationPet.create!(application: @app_2, pet: @pet_1, status: "Approved")
+         @app_record_3 = ApplicationPet.create!(application: @app_1, pet: @pet_4, status: "Pending")
+        expect(@shelter_1.pets_not_reviewed).to eq [@pet_2, @pet_4]
       end
     end
   end

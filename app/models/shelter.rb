@@ -36,9 +36,32 @@ class Shelter < ApplicationRecord
     adoptable_pets.where('age >= ?', age_filter)
   end
 
+  # This user story wanted the full address of the shelter, but that would require another migration
+  def self.info_on(shelter_id)
+    find_by_sql("SELECT name, city FROM shelters WHERE id = #{shelter_id}").first
+  end
+
   # This method took about an hour to figure out
   def self.has_pending_applications
     joins(pets: [:applications]).where("applications.status = 'Pending'")
+  end
+
+  def adoptable_avg_age
+    adoptable_pets.average(:age)
+  end
+
+  def adoptable_count
+    adoptable_pets.count
+  end
+
+  def number_adopted
+    pets.count - adoptable_pets.count
+  end
+
+  # Seems like when you join with the Join table you get duplicate output...
+  def pets_not_reviewed
+    pending_pets = pets.joins(:application_pets).where("application_pets.status = 'Pending'")
+    pending_pets.uniq
   end
 
 end
