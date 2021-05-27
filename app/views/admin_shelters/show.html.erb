@@ -15,9 +15,9 @@
 
 <section id="action-area">
   <h3>Dashboard</h3>
-    <%= @shelter.application_pets.each do |record| %>
-      <div id="pet-<%= record.pet_id %>">
-        <%= link_to record.pet_name, "/admins/applications/#{record.application_id}" %>
+    <%= @shelter.pets_not_reviewed.each do |pet| %>
+      <div id="pet-<%= pet.id %>">
+        <%= link_to pet.name, "/admins/applications/#{2}" %>
       </div>
     <% end %>
 </section>

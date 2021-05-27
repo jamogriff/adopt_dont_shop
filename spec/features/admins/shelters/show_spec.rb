@@ -18,7 +18,7 @@ RSpec.describe 'admin view of single shelter' do
      @app_record_4 = ApplicationPet.create!(application: @app_3, pet: @pet_3, status: "Pending")
   end
 
-  describe 'showing pets that need to be reviewed with links' do
+  describe 'showing pets that need to be reviewed' do
     it 'has list of pets that need to be reviewed' do
       visit "/admins/shelters/#{@shelter.id}"
       within 'section#action-area' do
