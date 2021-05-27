@@ -10,17 +10,28 @@
   </head>
 
   <body>
-    <% flash.each do |type, msg| %>
-      <div>
-        <%= msg %>
+     <nav class="navbar navbar-expand navbar-light bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand text-light" href="/">Adopt Don't Shop!</a>
+        <div class="navbar-nav">
+          <a class="nav-link text-light" <%= link_to "Pets", "/pets" %></a>
+          <a class="nav-link text-light" <%= link_to "Shelters", "/shelters" %></a>
+          <a class="nav-link text-light" <%= link_to "Veterinarians", "/veterinarians" %></a>
+          <a class="nav-link text-light" <%= link_to "Veterinary Offices", "/veterinary_offices" %></a>
+        </div>
       </div>
-    <% end %>
-    <section>
-      <p><%= link_to "Pets", "/pets" %></p>
-      <p><%= link_to "Shelters", "/shelters" %></p>
-      <p><%= link_to "Veterinarians", "/veterinarians" %></p>
-      <p><%= link_to "Veterinary Offices", "/veterinary_offices" %></p>
-    </section>
-    <%= yield %>
+    </nav> 
+
+    <div class="container-fluid p-4">
+      <% flash.each do |type, msg| %>
+        <div><%= msg %></div>
+      <% end %>
+      <%= yield %>
+    </div>
+
+    <div class="d-flex justify-content-around bg-dark">
+      <h6 class="p-3 text-light">Created by Jamison G</h6>
+      <p class="p-3 text-light">©2021</p>
+    </div>
   </body>
 </html>
