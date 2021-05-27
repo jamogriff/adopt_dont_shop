@@ -17,7 +17,15 @@
   <h3>Dashboard</h3>
     <%= @shelter.pets_not_reviewed.each do |pet| %>
       <div id="pet-<%= pet.id %>">
-        <%= link_to pet.name, "/admins/applications/#{2}" %>
+        <strong>pet.name</strong>
+        <p>Applications Waiting:</p>
+        <ul>
+        <%= pet.pending_applications.each do |app| %>
+          <li>
+            <%= link_to "#{app.name} from #{app.city}", "/admins/applications/#{app.id}" %>
+          </li>
+        <% end %>
+        </ul>
       </div>
     <% end %>
 </section>

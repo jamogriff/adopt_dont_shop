@@ -63,5 +63,14 @@ RSpec.describe Pet, type: :model do
         expect(@pet_2.is_rejected_on(app.id)).to eq false
       end
     end
+
+    it 'lists a pet\'s pending applications' do
+        app_1 = Application.create!(name: "Kelsie G", address: "3421 Sleepy Rd", city: "Boulder", state: "CO", zip: "81302", status: "In Progress", description: "I love animals. ")
+        app_2 = Application.create!(name: "Jamo G", address: "3421 Sleepy Rd", city: "Boulder", state: "CO", zip: "81302", status: "In Progress", description: "I love animals. ")
+        ApplicationPet.create!(application: app_1, pet: @pet_1, status: "Pending")
+        ApplicationPet.create!(application: app_2, pet: @pet_1, status: "Pending")
+        expect(@pet_1.pending_applications.first.name).to eq app_1.name
+        expect(@pet_1.pending_applications[1].name).to eq app_2.name
+    end
   end
 end

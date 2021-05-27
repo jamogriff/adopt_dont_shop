@@ -30,4 +30,12 @@ class Pet < ApplicationRecord
       false
     end
   end
+
+  # Technically could have pulled app_id from join table,
+  # but wanted to practice selective joins
+  # NOTE: Due to joining with Join table, duplicate output is present and #uniq was added to output
+  def pending_applications
+    pending_apps = applications.select('applications.id, applications.name, applications.city').joins(:application_pets).where("application_pets.status = 'Pending'")
+    pending_apps.uniq
+  end
 end
