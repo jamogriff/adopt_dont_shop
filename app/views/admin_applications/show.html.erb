@@ -1,22 +1,25 @@
 <h2>Approve Applications</h2>
 
-<section id="application-status">
-  <strong>Application Status: </strong><%= @app.status %>
-</section>
-<section>
-  <%= @app.pets.each do |p| %>
-    <div id='pet-<%= p.id %>'>
-      <strong><%= p.name %></strong>
-      <% if p.is_approved_on(@app.id) %>
-        <p>✓</p>
-      <% elsif p.is_rejected_on(@app.id) %>
-        <p>✘</p>
-      <% elsif p.adoptable == false %>
-        <p>This pet has been adopted!</p>
-        <%= button_to "Reject", "/admins/applications/#{@app.id}?pet_id=#{p.id}&operation=reject", method: :patch, id: "reject-#{p.id}" %>
-      <% else %>
-        <%= button_to "Approve", "/admins/applications/#{@app.id}?pet_id=#{p.id}&operation=approve", method: :patch, id: "approve-#{p.id}" %>
-        <%= button_to "Reject", "/admins/applications/#{@app.id}?pet_id=#{p.id}&operation=reject", method: :patch, id: "reject-#{p.id}" %>
+<div class="p-4 border border-3 rounded">
+  <section id="application-status" class="p-4 bg-primary text-light rounded">
+    <h4><strong>Application Status: </strong><%= @app.status %></h4>
+  </section>
+  <section>
+    <% @app.pets.each do |p| %>
+      <div id="pet-<%= p.id %>" class="p-4 mb-2 mt-2 border border-secondary rounded">
+        <h4><%= p.name %></h4>
+        <% if p.is_approved_on(@app.id) %>
+          <h4>✓</h4>
+        <% elsif p.is_rejected_on(@app.id) %>
+          <h4>✘</h4>
+        <% elsif p.adoptable == false %>
+          <strong><i>This pet has been adopted!</i></strong>
+          <%= button_to "Reject", "/admins/applications/#{@app.id}?pet_id=#{p.id}&operation=reject", method: :patch, id: "reject-#{p.id}"%>
+        <% else %>
+          <%= button_to "Approve", "/admins/applications/#{@app.id}?pet_id=#{p.id}&operation=approve", method: :patch, id: "approve-#{p.id}" %><br>
+          <%= button_to "Reject", "/admins/applications/#{@app.id}?pet_id=#{p.id}&operation=reject", method: :patch, id: "reject-#{p.id}" %>
+        <% end %>
+      </div>
       <% end %>
-    <% end %>
-</section>
+  </section>
+</div>

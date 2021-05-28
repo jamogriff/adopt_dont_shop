@@ -1,28 +1,28 @@
-<h2><%= @details.name %> | <%= @details.city %></h2>
+<h2><%= @details.name %>  |  <%= @details.city %></h2>
 
-<section id="data">
-  <h3>Statistics</h3>
-  <div id="adoptable">
-    <h5>Adoptable Pets</h5>
-    <strong>Average Age: <%= @shelter.adoptable_avg_age.round(1) %></strong><br>
-    <strong><%= @shelter.adoptable_count %> pets ready to be adopted!</strong>
-  </div>
-  <div id="adopted">
+<section id="data" class="d-flex justify-content-between border border-3 border-secondary rounded">
+  <span class="bg-success rounded-left"><h2 class="align-middle p-4">Statistics</h2></span>
+  <div id="adopted" class="align-center p-4 text-center">
     <h5>Adoption Counter</h5>
-    <strong><%= @shelter.number_adopted %> Pets Saved</strong>
+    <h3><%= @shelter.number_adopted %> Pets Saved</h3>
+  </div>
+  <div id="adoptable" class="align-center text-center p-4">
+    <h5>Adoptable Pets</h5>
+    <strong>Average Age: <%= @shelter.adoptable_avg_age.round(1) %> Years Old</strong><br>
+    <strong><%= @shelter.adoptable_count %> pets are ready to be adopted!</strong>
   </div>
 </section>
 
 <section id="action-area">
   <h3>Dashboard</h3>
-    <%= @shelter.pets_not_reviewed.each do |pet| %>
-      <div id="pet-<%= pet.id %>">
-        <strong>pet.name</strong>
-        <p>Applications Waiting:</p>
+    <% @shelter.pets_not_reviewed.each do |pet| %>
+      <div id="pet-<%= pet.id %>" class="p-4 mb-2 border border-secondary rounded">
+        <h3><%= pet.name %></h3>
+        <strong>Applications Waiting:</strong>
         <ul>
-        <%= pet.pending_applications.each do |app| %>
+        <% pet.pending_applications.each do |app| %>
           <li>
-            <%= link_to "#{app.name} from #{app.city}", "/admins/applications/#{app.id}" %>
+            <h6><%= link_to "#{app.name} from #{app.city}", "/admins/applications/#{app.id}" %></h6>
           </li>
         <% end %>
         </ul>
