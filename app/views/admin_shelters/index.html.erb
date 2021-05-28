@@ -2,7 +2,7 @@
 <section id="pending" class="p-4 border border-3 border-secondary bg-warning rounded">
   <h3>Shelters with Outstanding Applications</h3>  
   <ul>
-    <% @shelters_with_apps.each do |s| %>
+    <% @shelters_with_apps.uniq.each do |s| %>
       <li><h4><%= link_to s.name, "/admins/shelters/#{s.id}" %></h4></li><br>
     <% end %>
   </ul>

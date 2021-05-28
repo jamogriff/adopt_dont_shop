@@ -43,8 +43,7 @@ class Shelter < ApplicationRecord
 
   # This method took about an hour to figure out
   def self.has_pending_applications
-    shelters = joins(pets: [:applications]).where("applications.status = 'Pending'")
-    shelters.uniq
+    joins(pets: [:applications]).where("applications.status = 'Pending'")
   end
 
   def adoptable_avg_age
