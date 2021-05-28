@@ -7,7 +7,7 @@ class ApplicationsController < ApplicationController
     @application = Application.find(params[:id])
 
     if params[:search].present?
-      @pets = Pet.search(params[:search])
+      @pets = Pet.adoptable.search(params[:search])
     else
       @pets = Pet.adoptable
     end
@@ -28,14 +28,17 @@ class ApplicationsController < ApplicationController
   end
 
   def update
-    # Probably should add a check here to see if pet already exists
-    # in Application.pets
-    # Likewise, restructuring conditional to be more explicit WIP
-    app = Application.find(params[:id])
+    @application = Application.find(params[:id])
+    # Needs to be fixed to provide error msg when description is blank
     if params[:description].present?
-      app.update(description: params[:description], status: params[:status])
-    else
-      added_pet = ApplicationPet.create!(pet: Pet.find(params[:pet_id]), application: app)
+      @application.update(description: params[:description], status: params[:status])
+    elsif params[:pet_id].present?
+      pet = Pet.find(params[:pet_id])
+      if !@application.pets.include?(pet)
+      ApplicationPet.create!(pet: pet, application: @application)
+      else
+        return nil # not a great way to fix, since has no feedback, but prevents adding duplicates 
+      end
     end
     redirect_to "/applications/#{params[:id]}"
   end

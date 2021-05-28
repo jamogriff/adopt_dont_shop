@@ -30,7 +30,7 @@
     <td><%= @application.description %></td>
   </tr>
   <tr>
-    <td><strong>Dog(s) Applied For:</strong></td>
+    <td><strong>Pet(s) Applied For:</strong></td>
     <td id="pets">
       <% @application.pets.each do |pet| %>
         <%= link_to pet.name, "/pets/#{pet.id}" %><br>
